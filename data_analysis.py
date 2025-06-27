@@ -26,6 +26,7 @@ combined_df['Station'] = combined_df['Station'].replace('Enseada do Suá', 'Ense
 combined_df['Station'] = combined_df['Station'].replace('Vila Velha - Centro', 'Vila Velha-Centro')
 combined_df['Station'] = combined_df['Station'].replace('Vila Velha - Ibes', 'Vila Velha-IBES')
 
+#combined_df.to_csv('data/cleaned_dataset.csv', index=False)
 
 stations = combined_df['Station'].unique()
 print(stations)
