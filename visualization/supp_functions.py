@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 # Load standards
-standards = pd.read_csv('data/standards.csv')
+standards = pd.read_csv('../data/standards.csv')
 def plot_risk_zones(pollutant, period, ax=None):
     """Plot CONAMA risk zones as horizontal bands with limit line"""
     if ax is None:
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=(8, 5))
 
     # Get thresholds
     row = standards[(standards['pollutant'] == pollutant) &
