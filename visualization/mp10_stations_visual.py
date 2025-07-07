@@ -5,7 +5,7 @@ from visualization.supp_functions import plot_risk_zones
 pollutants = ['MP10', 'PTS', 'NO2', 'SO2', 'CO', 'MP2.5', 'O3', 'NO']
 
 correct_stations = ['Anchieta Centro',
-                    'Belo Horizonte',
+                    #'Belo Horizonte',
                     'Carapina',
                     'Cariacica',
                     'Cidade Continental',
@@ -42,7 +42,7 @@ for station in correct_stations:
     plot = True
     if plot:
         # plot MP10 for each station
-        ax = plot_risk_zones('MP10', '24h')
+        '''ax = plot_risk_zones('MP10', '24h')
         plt.plot(station_dataset.index, station_dataset[f'24h_MP10'])
         plt.xticks(rotation=90)
         plt.title(f'MP10 (24h mean) - {station}')
@@ -50,6 +50,16 @@ for station in correct_stations:
         plt.ylim(0, 240)
         plt.tight_layout()
         plt.savefig(f'mp10_visualizations/MP10_{station}.png')
+        plt.show()'''
+
+        ax = plot_risk_zones('MP10', '24h')
+        plt.plot(station_dataset.index, station_dataset[f'Value'])
+        plt.xticks(rotation=90)
+        plt.title(f'MP10 - {station}')
+        plt.ylabel('ug/m3')
+        plt.ylim(0, 240)
+        plt.tight_layout()
+        plt.savefig(f'mp10_visualizations/raw_MP10_{station}.png')
         plt.show()
 
 print(stations_pollutants_dict)
@@ -85,7 +95,7 @@ def save_mp10_station_existance():
     # Add title and adjust layout
     plt.title('Pollutant Monitoring by Station', pad=20, fontsize=16)
     plt.tight_layout()
-    #plt.savefig('visualization/pollutant_per_station.png', dpi=400)
+    plt.savefig('pollutant_per_station.png', dpi=400)
     plt.show()
 
 
@@ -117,5 +127,9 @@ def save_test_dates():
             cell.set_text_props(weight='bold')
             cell.set_edgecolor('#999999')
     plt.tight_layout()
-    #plt.savefig('visualization/station_target_dates.png', dpi=400, bbox_inches='tight')
+    plt.savefig('station_target_dates.png', dpi=400, bbox_inches='tight')
     plt.show()
+
+
+#save_mp10_station_existance()
+#save_test_dates()

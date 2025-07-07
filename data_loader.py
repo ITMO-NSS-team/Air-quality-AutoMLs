@@ -5,7 +5,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 stations_names = ['Anchieta Centro',
-                    'Belo Horizonte',
+                    #'Belo Horizonte',
                     'Carapina',
                     'Cariacica',
                     'Cidade Continental',
@@ -39,16 +39,18 @@ def load_data(station, window_size=48):
     test_dataset = station_dataset[station_dataset['Date'].isin(target_dates)]
     train_dataset = station_dataset[~station_dataset['Date'].isin(target_dates)]
 
-    plt.rcParams['figure.figsize'] = (8, 3)
+    plt.rcParams['figure.figsize'] = (6, 2)
     plt.plot(train_dataset['Date'], train_dataset['24h_MP10'], label='Train')
     plt.plot(test_dataset['Date'], test_dataset['24h_MP10'], label='Test')
-    plt.title(f'Train/Test time series - {station}')
-    plt.legend()
+    #plt.title(f'Train/Test time series - {station}')
+    plt.title(f'{station}')
+    plt.legend(loc='upper left')
+    plt.ylabel('MP10, µg/m³')
     plt.tight_layout()
     plt.show()
 
     # FORM TRAIN DATASET
-    train_features = []
+    '''train_features = []
     train_target = []
     train_target_dates = []
     for date in train_dataset['Date'].tolist():
@@ -98,7 +100,9 @@ def load_data(station, window_size=48):
     test_target = np.array(test_target)
     np.save(f'data/npy_datasets/{station}_test_target.npy', test_target)
     test_target_dates = np.array(test_target_dates)
-    np.save(f'data/npy_datasets/{station}_test_target_dates.npy', test_target_dates)
+    np.save(f'data/npy_datasets/{station}_test_target_dates.npy', test_target_dates)'''
 
-#load_data('Anchieta Centro')
+
+for station in stations_names:
+    load_data(station)
 
