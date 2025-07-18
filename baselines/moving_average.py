@@ -29,8 +29,8 @@ test_MSE = []
 
 
 for station in stations:
-    train_features = np.load(f'../data/npy_datasets/{station}_train_features.npy')
-    train_target = np.load(f'../data/npy_datasets/{station}_train_target.npy')
+    train_features = np.load(f'../data/npy_datasets/{station}_train_features.npy')[1:]
+    train_target = np.load(f'../data/npy_datasets/{station}_train_target.npy')[:-1]
 
 
     train_prediction = moving_average_forecast(train_features)
@@ -44,8 +44,8 @@ for station in stations:
     train_MSE.append(train_mse)
 
 
-    test_features = np.load(f'../data/npy_datasets/{station}_test_features.npy')
-    test_target = np.load(f'../data/npy_datasets/{station}_test_target.npy')
+    test_features = np.load(f'../data/npy_datasets/{station}_test_features.npy')[1:]
+    test_target = np.load(f'../data/npy_datasets/{station}_test_target.npy')[:-1]
 
     test_prediction = moving_average_forecast(test_features)
 
@@ -72,7 +72,7 @@ for station in stations:
     plt.ylabel('MP10, µg/m³')
     plt.title(f'Moving average: {station}\nMAE={np.round(test_mae, 4)}, MSE={np.round(test_mse, 4)}')
     plt.tight_layout()
-    plt.savefig(f'results/moving_average/{station}.png', dpi=100)
+    plt.savefig(f'results/moving_average/{station}_after_fix.png', dpi=100)
     #plt.show()
     plt.close()
 
@@ -83,4 +83,4 @@ results_df['train_MAE'] = train_MAE
 results_df['train_MSE'] = train_MSE
 results_df['test_MAE'] = test_MAE
 results_df['test_MSE'] = test_MSE
-results_df.to_csv('results/moving_average/metrics.csv', index=False)
+results_df.to_csv('results/moving_average/metrics_after_fix.csv', index=False)

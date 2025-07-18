@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import matplotlib.dates as mdates
 
@@ -25,8 +25,8 @@ test_MAE = []
 test_MSE = []
 
 for station in stations:
-    train_features = np.load(f'../data/npy_datasets/{station}_train_features.npy')
-    train_target = np.load(f'../data/npy_datasets/{station}_train_target.npy')
+    train_features = np.load(f'../data/npy_datasets/{station}_train_features.npy')[1:]
+    train_target = np.load(f'../data/npy_datasets/{station}_train_target.npy')[:-1]
 
     reg = LinearRegression().fit(train_features, train_target)
     train_prediction = reg.predict(train_features)
@@ -39,8 +39,8 @@ for station in stations:
     train_MAE.append(train_mae)
     train_MSE.append(train_mse)
 
-    test_features = np.load(f'../data/npy_datasets/{station}_test_features.npy')
-    test_target = np.load(f'../data/npy_datasets/{station}_test_target.npy')
+    test_features = np.load(f'../data/npy_datasets/{station}_test_features.npy')[1:]
+    test_target = np.load(f'../data/npy_datasets/{station}_test_target.npy')[:-1]
 
     test_prediction = reg.predict(test_features)
 
@@ -67,7 +67,7 @@ for station in stations:
     plt.ylabel('MP10, µg/m³')
     plt.title(f'Linear regression: {station}\nMAE={np.round(test_mae, 4)}, MSE={np.round(test_mse, 4)}')
     plt.tight_layout()
-    plt.savefig(f'results/linear_regression/{station}.png', dpi=100)
+    plt.savefig(f'results/linear_regression/{station}_after_fix.png', dpi=100)
     # plt.show()
     plt.close()
 
@@ -78,5 +78,4 @@ results_df['train_MAE'] = train_MAE
 results_df['train_MSE'] = train_MSE
 results_df['test_MAE'] = test_MAE
 results_df['test_MSE'] = test_MSE
-results_df.to_csv('results/linear_regression/metrics.csv', index=False)
-
+results_df.to_csv('results/linear_regression/metrics_after_fix.csv', index=False)
