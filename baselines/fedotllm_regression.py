@@ -67,7 +67,7 @@ def create_visualization(
     plt.legend()
     plt.xticks(rotation=15)
     plt.ylabel("MP10, µg/m³")
-    plt.title(f"FEDOTLLM: {station}\nMAE={np.round(mae, 4)}, MSE={np.round(mse, 4)}")
+    plt.title(f"FEDOT.ASSISTANT: {station}\nMAE={np.round(mae, 4)}, MSE={np.round(mse, 4)}")
     plt.tight_layout()
     plt.savefig(f"./baselines/results/fedotllm/regression/{automl}/{station}.png", dpi=100)
     plt.close()
@@ -114,9 +114,7 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
             task_path=temp_dir,
             presets="best_quality",
             config_overrides=[f"automl.enabled={automl}", 
-                            "time_limit=1800",
-                            "save_artifacts.enabled=True"
-                            f"save_artifacts.path=./artifacts/fedotllm/{automl}"],
+                            "time_limit=1800"],
             output_filename=output_filename,
         )
 
@@ -134,7 +132,7 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
         task.test_data = task.train_data.drop(columns=["Target_MP10"])
         train_target = task.train_data["Target_MP10"].to_numpy()
 
-        train_prediction = assistant.predict(task)["Target_MP10"].to_numpy()
+        train_prediction = assistant.predict(task).to_numpy()
 
         train_mae = mean_absolute_error(train_target, train_prediction)
         train_mse = mean_squared_error(train_target, train_prediction)
@@ -167,13 +165,14 @@ def process_station(station: str, automl: str):
 
 
 if __name__ == "__main__":
-    automls = ["autogluon"]
+    automls = ["fedot", "autogluon"]
     for automl in automls:
         for station in stations:
             process_station(station, automl)
         save_metrics(
             "metrics",
             automl,
+            stations,
             global_train_MAE,
             global_train_MSE,
             global_test_MAE,
