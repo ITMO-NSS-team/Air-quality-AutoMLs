@@ -9,14 +9,13 @@ from fedot.core.pipelines.node import PrimaryNode, SecondaryNode
 from fedot.core.pipelines.pipeline import Pipeline
 from fedot.core.repository.dataset_types import DataTypesEnum
 from fedot.core.repository.tasks import Task, TaskTypesEnum, TsForecastingParams
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-
 from fedotllm import PredictionAssistant, PredictionTask, load_config
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 DESCRIPTION_PROMPT = '''
 This competition focuses on air quality forecasting using time series data from Brazilian air monitoring stations.
 Develop accurate time series forecasting models to predict MP10 concentrations.
-The goal is to create reliable forecasts for next {HORIZON}.
+The goal is to create reliable hourly forecast.
 Models are evaluated using MAE metric
 '''
 
@@ -67,7 +66,7 @@ for station in stations:
     train.to_csv(temp_dir / "train.csv", header=True, index=False)
     
     description = Path(temp_dir) / "description.txt"
-    description.write_text(DESCRIPTION_PROMPT.format(HORIZON=1))
+    description.write_text(DESCRIPTION_PROMPT)
     output_filename = Path(temp_dir) / "output.csv"
     
     # Load config
