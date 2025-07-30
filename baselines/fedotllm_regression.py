@@ -46,6 +46,8 @@ def create_visualization(
     mae: float,
     mse: float,
 ):
+
+
     test_target = np.ravel(test_target)
     test_prediction = np.ravel(test_prediction)
     target_dates = pd.to_datetime(
@@ -67,9 +69,13 @@ def create_visualization(
     plt.legend()
     plt.xticks(rotation=15)
     plt.ylabel("MP10, µg/m³")
-    plt.title(f"FEDOT.ASSISTANT: {station}\nMAE={np.round(mae, 4)}, MSE={np.round(mse, 4)}")
+    plt.title(
+        f"FEDOT.ASSISTANT: {station}\nMAE={np.round(mae, 4)}, MSE={np.round(mse, 4)}"
+    )
     plt.tight_layout()
-    plt.savefig(f"./baselines/results/fedotllm/regression/{automl}/{station}.png", dpi=100)
+    plt.savefig(
+        f"./baselines/results/fedotllm/regression/{automl}/{station}.png", dpi=100
+    )
     plt.close()
 
 
@@ -82,6 +88,8 @@ def save_metrics(
     test_MAE: list,
     test_MSE: list,
 ):
+
+
     results = pd.DataFrame(
         {
             "Station": station,
@@ -91,10 +99,14 @@ def save_metrics(
             "Test_MSE": test_MSE,
         }
     )
-    results.to_csv(f"./baselines/results/fedotllm/regression/{automl}/{name}.csv", index=False)
+    results.to_csv(
+        f"./baselines/results/fedotllm/regression/{automl}/{name}.csv", index=False
+    )
 
 
 def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: str):
+
+
     with tempfile.TemporaryDirectory(prefix="_datasets", dir=Path.cwd()) as tmp_dir:
         temp_dir = Path(tmp_dir).resolve()
         test_features = test.drop(columns=["Target_MP10"])
@@ -113,8 +125,7 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
         task, assistant = run_assistant(
             task_path=temp_dir,
             presets="best_quality",
-            config_overrides=[f"automl.enabled={automl}", 
-                            "time_limit=1800"],
+            config_overrides=[f"automl.enabled={automl}", "time_limit=1800"],
             output_filename=output_filename,
         )
 
@@ -126,7 +137,9 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
         print(f"Test MAE: {test_mae}")
         print(f"Test MSE: {test_mse}")
 
-        create_visualization(test_target, test_prediction, station, automl, test_mae, test_mse)
+        create_visualization(
+            test_target, test_prediction, station, automl, test_mae, test_mse
+        )
 
         # Training prediction
         task.test_data = task.train_data.drop(columns=["Target_MP10"])
@@ -138,15 +151,19 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
         train_mse = mean_squared_error(train_target, train_prediction)
         print(f"Train MAE: {train_mae}")
         print(f"Train MSE: {train_mse}")
-        
+
         return test_mae, test_mse, train_mae, train_mse
 
 
 def process_station(station: str, automl: str):
+
+
     train = pd.read_csv(f"./data/csv_datasets/{station}_train.csv")
     test = pd.read_csv(f"./data/csv_datasets/{station}_test.csv")
 
-    test_MAE, test_MSE, train_MAE, train_MSE = run_fedotllm(train, test, station, automl)
+    test_MAE, test_MSE, train_MAE, train_MSE = run_fedotllm(
+        train, test, station, automl
+    )
 
     global_train_MAE.append(train_MAE)
     global_train_MSE.append(train_MSE)
