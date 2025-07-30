@@ -23,9 +23,7 @@ stations_names = [
 
 
 def load_data(station, window_size=48):
-    """
-    No valid docstring found.
-    """
+
 
     dataset = pd.read_csv("data/cleaned_dataset.csv")
     dataset["Date"] = pd.to_datetime(dataset["Date"])

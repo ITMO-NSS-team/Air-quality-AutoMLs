@@ -22,9 +22,7 @@ stations = [
 
 
 def moving_average_forecast(X):
-    """
-    No valid docstring found.
-    """
+
 
     predictions = np.mean(X, axis=1)
     return predictions

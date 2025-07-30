@@ -22,9 +22,7 @@ stations = [
 
 
 def naive_forecast(X):
-    """
-    No valid docstring found.
-    """
+
 
     predictions = X[:, -1:]
     return predictions

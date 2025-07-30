@@ -19,9 +19,7 @@ except ImportError:
 
 
 def custom_set_seed(seed: int = 42) -> None:
-    """
-    No valid docstring found.
-    """
+
 
     random.seed(seed)
     np.random.seed(seed)
@@ -54,9 +52,7 @@ stations = [
 def load_station_data(
     station: str, data_type: str = "train"
 ) -> Tuple[np.ndarray, np.ndarray, Optional[pd.DatetimeIndex]]:
-    """
-    No valid docstring found.
-    """
+
 
     features = np.load(f"../data/npy_datasets/{station}_{data_type}_features.npy")[1:]
     target = np.load(f"../data/npy_datasets/{station}_{data_type}_target.npy")[:-1]
@@ -69,9 +65,7 @@ def load_station_data(
 def predict_with_chronos(
     pipeline: BaseChronosPipeline, features: np.ndarray
 ) -> np.ndarray:
-    """
-    No valid docstring found.
-    """
+
 
     predictions = []
     for i in range(features.shape[0]):
@@ -89,9 +83,7 @@ def predict_with_chronos(
 def calculate_metrics(
     predictions: np.ndarray, targets: np.ndarray
 ) -> Tuple[float, float]:
-    """
-    No valid docstring found.
-    """
+
 
     mae = np.mean(np.abs(predictions - targets.ravel()))
     mse = np.sqrt(np.mean((predictions - targets.ravel()) ** 2))
@@ -101,9 +93,7 @@ def calculate_metrics(
 def evaluate_station(
     pipeline: BaseChronosPipeline, station: str, chronos_model: str, pbar: tqdm
 ) -> Tuple[float, float, float, float]:
-    """
-    No valid docstring found.
-    """
+
 
     train_features, train_target, _ = load_station_data(station, "train")
 

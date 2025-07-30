@@ -72,9 +72,7 @@ print(stations_target_dates)
 
 
 def save_mp10_station_existance():
-    """
-    No valid docstring found.
-    """
+
 
     plt.figure(figsize=(6, 6))
     ax = plt.gca()
@@ -123,9 +121,7 @@ def save_mp10_station_existance():
 
 
 def save_test_dates():
-    """
-    No valid docstring found.
-    """
+
 
     def convert_date_format(date_str):
         start, end = date_str.split(" - ")

@@ -46,9 +46,7 @@ def create_visualization(
     mae: float,
     mse: float,
 ):
-    """
-    No valid docstring found.
-    """
+
 
     test_target = np.ravel(test_target)
     test_prediction = np.ravel(test_prediction)
@@ -90,9 +88,7 @@ def save_metrics(
     test_MAE: list,
     test_MSE: list,
 ):
-    """
-    No valid docstring found.
-    """
+
 
     results = pd.DataFrame(
         {
@@ -109,9 +105,7 @@ def save_metrics(
 
 
 def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: str):
-    """
-    No valid docstring found.
-    """
+
 
     with tempfile.TemporaryDirectory(prefix="_datasets", dir=Path.cwd()) as tmp_dir:
         temp_dir = Path(tmp_dir).resolve()
@@ -162,9 +156,7 @@ def run_fedotllm(train: pd.DataFrame, test: pd.DataFrame, station: str, automl: 
 
 
 def process_station(station: str, automl: str):
-    """
-    No valid docstring found.
-    """
+
 
     train = pd.read_csv(f"./data/csv_datasets/{station}_train.csv")
     test = pd.read_csv(f"./data/csv_datasets/{station}_test.csv")
